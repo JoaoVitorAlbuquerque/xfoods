@@ -7,6 +7,7 @@ import { Checkbox } from "../../../../../../components/Checkbox";
 import { Product } from "../../../../../../../types/Product";
 import { Button } from "../../../../../../components/Button";
 import { useNewProductsModalController } from "./useNewProductsModalController";
+import { useIngredientsController } from "../../useIngredientsController";
 
 interface NewProductsModalProps {
   visible: boolean;
@@ -20,6 +21,7 @@ export function NewProductsModal({ visible, product, onClose, onOpenNewIngredien
   console.log({ product });
 
   const { data: categories, isFetching: isLoadingCategories } = useNewProductsModalController();
+  const { data: ingredients } = useIngredientsController();
 
   if (!visible) {
     return null;
@@ -109,24 +111,15 @@ export function NewProductsModal({ visible, product, onClose, onOpenNewIngredien
                 />
               </div>
 
-              <div className="space-y-1">
-                <Checkbox
-                  label="Muçarela"
-                  icon="🧀"
-                  id="123"
-                />
-
-                <Checkbox
-                  label="Rúcula"
-                  icon="🌱"
-                  id="456"
-                />
-
-                <Checkbox
-                  label="Tomate"
-                  icon="🍅"
-                  id="789"
-                />
+              <div className="space-y-1 max-h-[424px] overflow-y-auto">
+                {ingredients.map(ingredient => (
+                  <Checkbox
+                    key={ingredient.id}
+                    label={ingredient.name}
+                    icon={ingredient.icon}
+                    id={ingredient.id}
+                  />
+                ))}
               </div>
             </div>
           </main>

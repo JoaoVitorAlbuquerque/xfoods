@@ -1,6 +1,7 @@
-import { Button } from "../../../../../components/Button";
-import { Input } from "../../../../../components/Input";
-import { Modal } from "../../../../../components/Modal";
+import { Button } from "../../../../../../components/Button";
+import { Input } from "../../../../../../components/Input";
+import { Modal } from "../../../../../../components/Modal";
+import { useNewIngredientModalController } from "./useNewIngredientModalController";
 
 interface NewIngredientModalProps {
   visible: boolean;
@@ -8,6 +9,13 @@ interface NewIngredientModalProps {
 }
 
 export function NewIngredientModal({ visible, onClose }: NewIngredientModalProps) {
+  const {
+    register,
+    errors,
+    handleSubmit,
+    isPending,
+  } = useNewIngredientModalController();
+
   if (!visible) {
     return null;
   }
@@ -20,25 +28,31 @@ export function NewIngredientModal({ visible, onClose }: NewIngredientModalProps
         title="Novo Ingrediente"
       >
         <div className="space-y-8">
-          <form>
+          <form
+            onSubmit={handleSubmit}
+          >
             <div className="space-y-2">
               <span className="text-gray-500 font-normal text-sm">Emoji</span>
               <Input
-                name=""
+                type="text"
                 placeholder="Ex: 🧀"
+                {...register('icon')}
+                error={errors.icon?.message}
               />
             </div>
 
             <div className="space-y-2">
               <span className="text-gray-500 font-normal text-sm">Nome do Ingrediente</span>
               <Input
-                name=""
+                type="text"
                 placeholder="Ex: Quatro Queijos"
+                {...register('name')}
+                error={errors.name?.message}
               />
             </div>
 
             <footer className="flex items-center justify-end mt-8">
-              <Button>
+              <Button isLoading={isPending}>
                 Salvar Alterações
               </Button>
             </footer>
