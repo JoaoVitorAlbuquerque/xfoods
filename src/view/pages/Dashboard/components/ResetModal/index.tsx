@@ -1,5 +1,6 @@
 import { Button } from "../../../../components/Button";
 import { Modal } from "../../../../components/Modal";
+import { useResetModalController } from "./useResetModalController";
 
 interface ResetModalProps {
   visible: boolean;
@@ -7,6 +8,11 @@ interface ResetModalProps {
 }
 
 export function ResetModal({ visible, onClose }: ResetModalProps) {
+  const {
+    isPending,
+    handleUpdateRestartedOrders,
+  } = useResetModalController(onClose);
+
   if (!visible) {
     return null;
   }
@@ -35,11 +41,15 @@ export function ResetModal({ visible, onClose }: ResetModalProps) {
           <button
             type="button"
             className="py-3 font-bold text-red-800"
+            onClick={onClose}
           >
             Não, continuar pedidos
           </button>
 
-          <Button>
+          <Button
+            onClick={handleUpdateRestartedOrders}
+            isLoading={isPending}
+          >
             Sim, reiniciar o dia
           </Button>
         </footer>

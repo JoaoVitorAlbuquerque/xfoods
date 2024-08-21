@@ -1,6 +1,6 @@
-import { useState } from "react";
 import { Order } from "../../../../../types/Order";
 import { OrderModal } from "../OrderModal";
+import { useOrdersCardController } from "./useOrdersCardController";
 
 interface OrdersCardProps {
   icon: string;
@@ -9,18 +9,16 @@ interface OrdersCardProps {
 }
 
 export function OrdersCard({ icon, title, orders }: OrdersCardProps) {
-  const [isModalVisible, setIsModalVisible] = useState(false);
-  const [selectedOrder, setSelectedOrder] = useState<Order | null>(null);
-
-  function handleOpenOrderModal(order: Order) {
-    setIsModalVisible(true);
-    setSelectedOrder(order);
-  }
-
-  function handleCloseOrderModal() {
-    setIsModalVisible(false);
-    setSelectedOrder(null);
-  }
+  const {
+    selectedOrder,
+    isModalVisible,
+    handleCloseOrderModal,
+    handleOpenOrderModal,
+    isPending,
+    handleCancelOrder,
+    isPendingUpdate,
+    handleUpdateOrderStatus,
+  } = useOrdersCardController();
 
   return (
     <div className="p-4 border border-gray-600/40 rounded-2xl flex flex-col items-center flex-1">
@@ -28,6 +26,10 @@ export function OrdersCard({ icon, title, orders }: OrdersCardProps) {
         visible={isModalVisible}
         order={selectedOrder}
         onClose={handleCloseOrderModal}
+        isPending={isPending}
+        onCancelOrder={handleCancelOrder}
+        isPendingUpdate={isPendingUpdate}
+        onUpdateOrderStatus={handleUpdateOrderStatus}
       />
 
       <header className="p-2 text-sm flex items-center gap-2">

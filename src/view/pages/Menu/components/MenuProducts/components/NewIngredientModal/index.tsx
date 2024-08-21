@@ -14,7 +14,7 @@ export function NewIngredientModal({ visible, onClose }: NewIngredientModalProps
     errors,
     handleSubmit,
     isPending,
-  } = useNewIngredientModalController();
+  } = useNewIngredientModalController(onClose);
 
   if (!visible) {
     return null;
@@ -30,6 +30,7 @@ export function NewIngredientModal({ visible, onClose }: NewIngredientModalProps
         <div className="space-y-8">
           <form
             onSubmit={handleSubmit}
+            className="space-y-2"
           >
             <div className="space-y-2">
               <span className="text-gray-500 font-normal text-sm">Emoji</span>

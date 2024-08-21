@@ -29,7 +29,7 @@ export function UsersTable({ onOpenEditUserModal, onOpenDeleteUserModal, users }
             <TableComponents.TableRow key={user.id}>
               <TableComponents.TableCell>{user.name}</TableComponents.TableCell>
               <TableComponents.TableCell>{user.email}</TableComponents.TableCell>
-              <TableComponents.TableCell>{user.rule}</TableComponents.TableCell>
+              <TableComponents.TableCell>{user.role}</TableComponents.TableCell>
               <TableComponents.TableCell className="flex items-center gap-4">
                   <ActionButton onClick={() => onOpenEditUserModal(user)}>
                     <img src={editIcon} />

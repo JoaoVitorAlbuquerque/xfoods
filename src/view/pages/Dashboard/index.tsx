@@ -1,36 +1,25 @@
 import { Header } from "../../components/Header";
 import { HomeIcon } from "../../components/icons/HomeIcon";
+import { Spinner } from "../../components/Spinner";
 import { OrdersCard } from "./components/OrdersCard";
 
 // import { orders } from "../../../mocks/Orders";
 import { ResetModal } from "./components/ResetModal";
-import { useEffect, useState } from "react";
-
-import { Order } from "../../../types/Order";
-import { api } from "../../../app/utils/api";
+import { useDashboard } from "./useDashboard";
 
 export function Dashboard() {
-  const [orders, setOrders] = useState<Order[]>([]);
-  const [isResetModalVisible, setIsResetModalVisible] = useState(false);
-
-  useEffect(() => {
-    api.get('/orders')
-      .then(({ data }) => {
-        setOrders(data);
-      });
-  }, []);
+  // const [orders, setOrders] = useState<Order[]>([]);
+  const {
+    data: orders,
+    isResetModalVisible,
+    isFetching,
+    handleCloseResetModal,
+    handleOpenResetModal,
+  } = useDashboard();
 
   const waiting = orders.filter((order) => order.status === 'WAITING');
   const inProduction = orders.filter((order) => order.status === 'IN_PRODUCTION');
   const done = orders.filter((order) => order.status === 'DONE');
-
-  function handleOpenResetModal() {
-    setIsResetModalVisible(true);
-  }
-
-  function handleCloseResetModal() {
-    setIsResetModalVisible(false);
-  }
 
   return (
     <div className="flex flex-col w-full h-full">
@@ -48,25 +37,31 @@ export function Dashboard() {
         Home
       </Header>
 
-      <div className="flex w-full gap-8">
-        <OrdersCard
-          icon="🕑"
-          title="Fila de espera"
-          orders={waiting}
-        />
+      {isFetching ? (
+        <div className="flex items-center justify-center flex-1">
+          <Spinner />
+        </div>
+      ) : (
+        <div className="flex w-full gap-8">
+          <OrdersCard
+            icon="🕑"
+            title="Fila de espera"
+            orders={waiting}
+          />
 
-        <OrdersCard
-          icon="👩🏼‍🍳"
-          title="Em produção"
-          orders={inProduction}
-        />
+          <OrdersCard
+            icon="👩🏼‍🍳"
+            title="Em produção"
+            orders={inProduction}
+          />
 
-        <OrdersCard
-          icon="✅"
-          title="Pronto"
-          orders={done}
-        />
+          <OrdersCard
+            icon="✅"
+            title="Pronto"
+            orders={done}
+          />
       </div>
+      )}
     </div>
   );
 }

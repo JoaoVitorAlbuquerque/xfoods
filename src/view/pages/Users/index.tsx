@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { ContentHeader } from "../../components/ContentHeader";
 import { Header } from "../../components/Header";
 import { UserIcon } from "../../components/icons/UserIcon";
@@ -7,42 +6,24 @@ import { NewUserModal } from "./components/NewUserModal";
 import { EditUserModal } from "./components/EditUserModal";
 import { DeleteUserModal } from "./components/DeleteUserModal";
 
-import { users } from '../../../mocks/Users';
-import { User } from "../../../types/Users";
+import { useUsersController } from "./useUsersController";
+import { Spinner } from "../../components/Spinner";
 
 export function Users() {
-  const [isNewUserModalVisible, setIsNewUserModalVisible] = useState(false);
-  const [isEditUserModalVisible, setIsEditUserModalVisible] = useState(false);
-  const [isDeleteUserModalVisible, setIsDeleteUserModalVisible] = useState(false);
-  const [selectedUser, setSelectedUser] = useState<User | null>(null);
-
-  function handleOpenNewUserModal() {
-    setIsNewUserModalVisible(true);
-  }
-
-  function handleCloseNewUserModal() {
-    setIsNewUserModalVisible(false);
-  }
-
-  function handleOpenEditUserModal(user: User) {
-    setIsEditUserModalVisible(true);
-    setSelectedUser(user);
-  }
-
-  function handleCloseEditUserModal() {
-    setIsEditUserModalVisible(false);
-    setSelectedUser(null);
-  }
-
-  function handleOpenDeleteUserModal(user: User) {
-    setIsDeleteUserModalVisible(true);
-    setSelectedUser(user);
-  }
-
-  function handleCloseDeleteUserModal() {
-    setIsDeleteUserModalVisible(false);
-    setSelectedUser(null);
-  }
+  const {
+    selectedUser,
+    isNewUserModalVisible,
+    isEditUserModalVisible,
+    isDeleteUserModalVisible,
+    handleCloseDeleteUserModal,
+    handleCloseEditUserModal,
+    handleCloseNewUserModal,
+    handleOpenDeleteUserModal,
+    handleOpenEditUserModal,
+    handleOpenNewUserModal,
+    data: users,
+    isFetching,
+  } = useUsersController();
 
   return (
     <>
@@ -55,6 +36,7 @@ export function Users() {
         visible={isEditUserModalVisible}
         onClose={handleCloseEditUserModal}
         user={selectedUser}
+        selectedUser={selectedUser}
       />
 
       <DeleteUserModal
@@ -83,11 +65,17 @@ export function Users() {
         </button>
       </ContentHeader>
 
-      <UsersTable
-        users={users}
-        onOpenEditUserModal={handleOpenEditUserModal}
-        onOpenDeleteUserModal={handleOpenDeleteUserModal}
-      />
+      {isFetching ? (
+        <div className="flex items-center justify-center flex-1">
+          <Spinner />
+        </div>
+      ) : (
+        <UsersTable
+          users={users}
+          onOpenEditUserModal={handleOpenEditUserModal}
+          onOpenDeleteUserModal={handleOpenDeleteUserModal}
+        />
+      )}
     </>
   );
 }

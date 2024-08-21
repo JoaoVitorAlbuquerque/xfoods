@@ -2,15 +2,19 @@ import { ChangeEvent, useState } from "react";
 
 import noImage from './icons/no-image.svg';
 import selectImage from './icons/select-image.svg';
+import { CrossCircledIcon } from "@radix-ui/react-icons";
 
 interface ImageUploadProps {
   label: string;
   value?: string;
-  onImageChange(imageUrl: string | null): void;
+  // onImageChange(imageUrl: string | null): void;
+  onImageChange(imageUrl: File | null): void;
+  error?: string;
 }
 
-export function ImageUpload({ label, value, onImageChange }: ImageUploadProps) {
-  const [selectedImage, setSelectedImage] = useState<string | null>(null);
+export function ImageUpload({ label, value, onImageChange, error }: ImageUploadProps) {
+  // const [selectedImage, setSelectedImage] = useState<File | null>(null);
+  const [selectedImage, setSelectedImage] = useState<string | null>(value || null);
 
   function handleImageChange(event: ChangeEvent<HTMLInputElement>) {
     const file = event.target.files?.[0];
@@ -18,7 +22,7 @@ export function ImageUpload({ label, value, onImageChange }: ImageUploadProps) {
     if (file) {
       const imageUrl = URL.createObjectURL(file);
       setSelectedImage(imageUrl);
-      onImageChange(imageUrl);
+      onImageChange(file);
     } else {
       setSelectedImage(null);
       onImageChange(null);
@@ -56,6 +60,14 @@ export function ImageUpload({ label, value, onImageChange }: ImageUploadProps) {
           onChange={handleImageChange}
         />
       </div>
+
+      {error && (
+        <div className="flex gap-2 items-center mt-2 text-red-900">
+          <CrossCircledIcon />
+
+          <span className="text-xs">{error}</span>
+        </div>
+      )}
     </>
   );
 }

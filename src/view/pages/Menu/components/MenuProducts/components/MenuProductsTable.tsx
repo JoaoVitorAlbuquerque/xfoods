@@ -44,6 +44,7 @@ export function MenuProductsTable({ products, onOpenDeleteProductModal }: MenuPr
       <EditProductsModal
         visible={isProductModalVisible}
         product={selectedProduct}
+        selectedProduct={selectedProduct}
         onClose={handleCloseEditProductModal}
         onOpenNewIngredientModal={handleOpenNewIngredientModal}
       />
@@ -99,7 +100,7 @@ export function MenuProductsTable({ products, onOpenDeleteProductModal }: MenuPr
             </TableComponents.TableCell>
 
             <TableComponents.TableCell>
-              {formatCurrency(product.price)}
+              {formatCurrency(Number(product.price))}
             </TableComponents.TableCell>
 
             <TableComponents.TableCell>

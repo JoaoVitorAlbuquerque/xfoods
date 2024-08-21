@@ -1,15 +1,22 @@
-import { Product } from "../../../../../../types/Product";
-import { formatCurrency } from "../../../../../../app/utils/formatCurrency";
-import { Button } from "../../../../../components/Button";
-import { Modal } from "../../../../../components/Modal";
+import { formatCurrency } from "../../../../../../../app/utils/formatCurrency";
+import { Product } from "../../../../../../../types/Product";
+import { Button } from "../../../../../../components/Button";
+import { Modal } from "../../../../../../components/Modal";
+import { useDeleteProductModalController } from "./useDeleteProductModalController";
 
 interface DeleteProductModalProps {
   visible: boolean;
   onClose(): void;
   product: Product | null;
+  selectedProduct: Product | null;
 }
 
-export function DeleteProductModal({ visible, onClose, product }: DeleteProductModalProps) {
+export function DeleteProductModal({ visible, onClose, product, selectedProduct }: DeleteProductModalProps) {
+  const {
+    isPending,
+    handleDeleteCategory,
+  } = useDeleteProductModalController(selectedProduct, onClose);
+
   if (!visible || !product) {
     return null;
   }
@@ -32,7 +39,7 @@ export function DeleteProductModal({ visible, onClose, product }: DeleteProductM
             <img
               src={`http://localhost:3000/uploads/${product.imagePath}`}
               alt={product.name}
-              className="min-h-[123px] w-40"
+              className="min-h-[123px] w-40 rounded-tl-lg rounded-bl-lg"
             />
 
             <div className="flex flex-col p-4 items-start gap-3">
@@ -43,7 +50,7 @@ export function DeleteProductModal({ visible, onClose, product }: DeleteProductM
 
               <span className="text-gray-500 font-semibold">{product.name}</span>
 
-              <span className="text-gray-500 font-medium">{formatCurrency(product.price)}</span>
+              <span className="text-gray-500 font-medium">{formatCurrency(Number(product.price))}</span>
             </div>
           </div>
         </div>
@@ -52,11 +59,15 @@ export function DeleteProductModal({ visible, onClose, product }: DeleteProductM
           <button
             type="button"
             className="py-3 font-bold text-red-800"
+            onClick={onClose}
           >
             Manter Produto
           </button>
 
-          <Button>
+          <Button
+            isLoading={isPending}
+            onClick={handleDeleteCategory}
+          >
             Excluir Produto
           </Button>
         </footer>

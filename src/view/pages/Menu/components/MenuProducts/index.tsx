@@ -40,6 +40,7 @@ export function MenuProducts() {
         visible={isDeleteProductModalVisible}
         onClose={handleCloseDeleteProductModal}
         product={selectedProduct}
+        selectedProduct={selectedProduct}
       />
 
       <ContentHeader

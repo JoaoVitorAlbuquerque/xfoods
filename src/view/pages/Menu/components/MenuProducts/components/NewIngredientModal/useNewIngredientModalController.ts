@@ -6,7 +6,7 @@ import toast from "react-hot-toast";
 import { ingredientsService } from "../../../../../../../app/services/ingredientsService";
 import { CreateIngredientsParams } from "../../../../../../../app/services/ingredientsService/create";
 
-export function useNewIngredientModalController() {
+export function useNewIngredientModalController(onClose: () => void) {
   const schema = z.object({
     icon: z.string().min(1, 'Ícone do ingrediente é obrigatório!'),
     name: z.string().min(1, 'Nome do ingrediente é obrigatório!'),
@@ -36,7 +36,7 @@ export function useNewIngredientModalController() {
 
       queryClient.invalidateQueries({ queryKey: ['ingredients'] });
       toast.success('Produto criado com sucesso!');
-      // handleCloseNewCategoryModal();
+      onClose();
       reset();
     } catch {
       toast.error('Erro ao criar o produto!');

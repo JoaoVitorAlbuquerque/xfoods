@@ -4,6 +4,7 @@ export interface Order {
   status: 'WAITING' | 'IN_PRODUCTION' | 'DONE';
   description?: string;
   date: Date,
+  // date: string,
   products: {
     id: string;
     quantity: number;
