@@ -41,13 +41,15 @@ export function MenuProductsTable({ products, onOpenDeleteProductModal }: MenuPr
 
   return (
     <>
-      <EditProductsModal
-        visible={isProductModalVisible}
-        product={selectedProduct}
-        selectedProduct={selectedProduct}
-        onClose={handleCloseEditProductModal}
-        onOpenNewIngredientModal={handleOpenNewIngredientModal}
-      />
+      {selectedProduct && (
+        <EditProductsModal
+          visible={isProductModalVisible}
+          product={selectedProduct}
+          selectedProduct={selectedProduct}
+          onClose={handleCloseEditProductModal}
+          onOpenNewIngredientModal={handleOpenNewIngredientModal}
+        />
+      )}
 
       <NewIngredientModal
         visible={isNewIngredientModalVisible}

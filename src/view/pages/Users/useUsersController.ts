@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import { User } from "../../../types/Users";
 import { useQuery } from "@tanstack/react-query";
 import { usersService } from "../../../app/services/usersService";
@@ -17,28 +17,28 @@ export function useUsersController() {
     setIsNewUserModalVisible(false);
   }
 
-  function handleOpenEditUserModal(user: User) {
-    setIsEditUserModalVisible(true);
+  const handleOpenEditUserModal = useCallback((user: User) => {
     setSelectedUser(user);
-  }
+    setIsEditUserModalVisible(true);
+  }, []);
 
-  function handleCloseEditUserModal() {
-    setIsEditUserModalVisible(false);
+  const handleCloseEditUserModal = useCallback(() => {
     setSelectedUser(null);
-  }
+    setIsEditUserModalVisible(false);
+  }, []);
 
   function handleOpenDeleteUserModal(user: User) {
-    setIsDeleteUserModalVisible(true);
     setSelectedUser(user);
+    setIsDeleteUserModalVisible(true);
   }
 
   function handleCloseDeleteUserModal() {
-    setIsDeleteUserModalVisible(false);
     setSelectedUser(null);
+    setIsDeleteUserModalVisible(false);
   }
 
   const { data = [], isFetching } = useQuery({
-    queryKey: ['usersCreate'],
+    queryKey: ['users'],
     queryFn: usersService.getAll,
   });
 

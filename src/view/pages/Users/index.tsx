@@ -32,17 +32,20 @@ export function Users() {
         onClose={handleCloseNewUserModal}
       />
 
-      <EditUserModal
-        visible={isEditUserModalVisible}
-        onClose={handleCloseEditUserModal}
-        user={selectedUser}
-        selectedUser={selectedUser}
-      />
+      {selectedUser && (
+        <EditUserModal
+          visible={isEditUserModalVisible}
+          onClose={handleCloseEditUserModal}
+          user={selectedUser}
+          selectedUser={selectedUser}
+        />
+      )}
 
       <DeleteUserModal
         visible={isDeleteUserModalVisible}
         onCloseDeleteUserModal={handleCloseDeleteUserModal}
         user={selectedUser}
+        selectedUser={selectedUser}
       />
 
       <Header

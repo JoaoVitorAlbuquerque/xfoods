@@ -57,15 +57,15 @@ export function EditUserModal({ visible, onClose, user, selectedUser }: EditUser
               />
             </div>
 
-            {/* <div className="space-y-2">
+            <div className="space-y-2">
               <span className="text-gray-500 font-normal text-sm">Senha</span>
               <Input
                 type="password"
-                name="password"
                 placeholder="Senha do usuário"
-                value={user.password}
+                {...register('password')}
+                error={errors.password?.message}
               />
-            </div> */}
+            </div>
 
             <div className="space-y-2">
               <span className="text-gray-500 font-normal text-sm">Cargo</span>
@@ -81,28 +81,12 @@ export function EditUserModal({ visible, onClose, user, selectedUser }: EditUser
                     // disabled={isLoadingCategories}
                     error={errors.role?.message}
                     options={roleList.map((role) => ({
-                      value: role.id,
-                      label: role.name,
+                      value: role.value,
+                      label: role.label,
                     }))}
                   />
                 )}
               />
-
-              {/* <Select>
-                <option
-                  value={user.role}
-                  className="text-lg font-semibold"
-                >
-                  Admin
-                </option>
-
-                <option
-                  value={user.role}
-                  className="text-lg font-semibold"
-                >
-                  Garçom
-                </option>
-              </Select> */}
             </div>
           </div>
 

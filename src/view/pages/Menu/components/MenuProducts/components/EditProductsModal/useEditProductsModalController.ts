@@ -47,6 +47,8 @@ export function useEditProductsModalController(onClose: () => void, selectedProd
     },
   });
 
+  console.log({ selectedProduct });
+
   useEffect(() => {
     if (selectedProduct) {
       reset({

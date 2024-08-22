@@ -7,27 +7,33 @@ import { User } from "../../../../../types/Users";
 import { usersService } from "../../../../../app/services/usersService";
 import { UpdateUsersParams } from "../../../../../app/services/usersService/update";
 
+type Role = Array<{
+  value: string;
+  label: string;
+}>;
+
 const schema = z.object({
   name: z.string().min(1, 'Nome da categoria é obrigatória'),
   email: z.string().email('E-mail inválido!').min(1, 'Ícone da categoria é obrigatória'),
+  password: z.string().min(1, 'Senha é obrigatória!'),
   role: z.string().min(1, 'Cargo do funcionário é obrigatório!'),
   // role: z.enum(['ADMIN', 'WAITER']).default("WAITER"),
 });
 
 type FormData = z.infer<typeof schema>;
 
-const roleList = [
-  {
-    id: 'ADMIN',
-    name: 'Admin',
-  },
-  {
-    id: 'WAITER',
-    name: 'Garçom',
-  },
-];
-
 export function useEditUserModalController(onClose: () => void, selectedUser: User | null) {
+  const roleList: Role = [
+    {
+      value: 'ADMIN',
+      label: 'Admin',
+    },
+    {
+      value: 'WAITER',
+      label: 'Garçom',
+    },
+  ];
+
   const {
     register,
     handleSubmit: hookFormSubmit,
@@ -38,7 +44,8 @@ export function useEditUserModalController(onClose: () => void, selectedUser: Us
     defaultValues: {
       name: selectedUser?.name,
       email: selectedUser?.email,
-      role: selectedUser?.role
+      password: '',
+      role: selectedUser?.role,
     },
   });
 

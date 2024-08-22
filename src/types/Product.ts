@@ -5,10 +5,10 @@ export interface Product {
   // imagePath: string,
   description?: string;
   price: string,
-  category: {
-    icon: string,
-    name: string,
-  },
-  // category: string;
+  // category: {
+  //   icon: string,
+  //   name: string,
+  // },
+  category: string;
   ingredientIds: Array<string>;
 }
