@@ -14,7 +14,7 @@ interface DeleteUserModalProps {
 export function DeleteUserModal({ visible, onCloseDeleteUserModal, user, selectedUser }: DeleteUserModalProps) {
   const {
     isPending,
-    handleDeleteCategory,
+    handleDeleteUser,
   } = useDeleteUserModalController(onCloseDeleteUserModal, selectedUser);
 
   if (!visible || !user) {
@@ -79,7 +79,7 @@ export function DeleteUserModal({ visible, onCloseDeleteUserModal, user, selecte
           </button>
 
           <Button
-            onClick={handleDeleteCategory}
+            onClick={handleDeleteUser}
             isLoading={isPending}
           >
             Excluir Usuário

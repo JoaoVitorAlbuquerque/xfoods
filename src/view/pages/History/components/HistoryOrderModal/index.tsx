@@ -38,7 +38,7 @@ export function HistoryOrderModal({ visible, order, onClose, selectedOrder }: Hi
 
             <div className="flex items-center gap-2 mt-2">
               <strong className="font-semibold">
-                {formatDate(order.date)}
+                {formatDate(new Date(order.date))}
               </strong>
             </div>
           </div>

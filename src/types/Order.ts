@@ -3,8 +3,7 @@ export interface Order {
   table: number;
   status: 'WAITING' | 'IN_PRODUCTION' | 'DONE';
   description?: string;
-  date: Date,
-  // date: string,
+  date: string,
   products: {
     id: string;
     quantity: number;

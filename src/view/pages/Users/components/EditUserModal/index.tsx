@@ -4,8 +4,8 @@ import { Button } from "../../../../components/Button";
 import { Input } from "../../../../components/Input";
 import { Modal } from "../../../../components/Modal";
 import { RadixSelect } from "../../../../components/RadixSelect";
-// import { Select } from "../../../../components/Select";
 import { useEditUserModalController } from "./useEditUserModalController";
+import { useDeleteUserModalController } from "../DeleteUserModal/useDeleteUserModalController";
 
 interface EditUserModalProps {
   visible: boolean;
@@ -23,6 +23,11 @@ export function EditUserModal({ visible, onClose, user, selectedUser }: EditUser
     handleSubmit,
     register,
   } = useEditUserModalController(onClose, selectedUser);
+
+  const {
+    isPending: isPendingDelete,
+    handleDeleteUser,
+  } = useDeleteUserModalController(onClose, selectedUser);
 
   if (!visible || !user) {
     return null;
@@ -93,12 +98,17 @@ export function EditUserModal({ visible, onClose, user, selectedUser }: EditUser
           <footer className="flex items-center justify-between mt-8">
             <button
               type="button"
+              onClick={handleDeleteUser}
+              disabled={isPending || isPendingDelete}
               className="py-3 font-bold text-red-800"
             >
               Excluir Usuário
             </button>
 
-            <Button isLoading={isPending}>
+            <Button
+              isLoading={isPending}
+              disabled={isPending || isPendingDelete}
+            >
               Salvar Alterações
             </Button>
           </footer>

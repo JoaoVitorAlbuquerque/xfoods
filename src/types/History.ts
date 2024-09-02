@@ -4,8 +4,7 @@ export interface History {
   status: 'WAITING' | 'IN_PRODUCTION' | 'DONE';
   description?: string;
   read: boolean;
-  // date: Date,
-  date: Date,
+  date: string,
   products: {
     id: string;
     quantity: number;

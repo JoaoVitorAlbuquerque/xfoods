@@ -45,17 +45,17 @@ export function useNewUserModalController(onClose: () => void) {
   const queryClient = useQueryClient();
   const { isPending, mutateAsync } = useMutation({
     mutationFn: async (data: CreateUserParams) => {
-      console.log('mutationFn', { data });
+      // console.log('mutationFn', { data });
       return usersService.create(data);
     },
   });
 
   const handleSubmit = hookFormSubmit(async (data) => {
     try {
-      console.log({ data });
+      // console.log({ data });
       await mutateAsync(data);
 
-      queryClient.invalidateQueries({ queryKey: ['usersCreate'] });
+      queryClient.invalidateQueries({ queryKey: ['users'] });
       toast.success('Usuário criado com sucesso!');
       onClose();
       reset();

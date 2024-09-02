@@ -12,7 +12,7 @@ export function useDeleteUserModalController(onCloseDeleteUserModal: () => void,
     },
   });
 
-  const handleDeleteCategory = useCallback(async () => {
+  const handleDeleteUser = useCallback(async () => {
     try {
       await mutateAsync(selectedUser!.id);
       queryClient.invalidateQueries({ queryKey: ['users'] });
@@ -25,6 +25,6 @@ export function useDeleteUserModalController(onCloseDeleteUserModal: () => void,
 
   return {
     isPending,
-    handleDeleteCategory,
+    handleDeleteUser,
   };
 }
